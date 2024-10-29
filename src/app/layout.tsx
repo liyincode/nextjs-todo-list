@@ -1,3 +1,12 @@
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
+import { zhCN } from "@clerk/localizations";
+
 import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
@@ -13,8 +22,20 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable}`}>
-      <body>{children}</body>
-    </html>
+    <ClerkProvider localization={zhCN}>
+      <html lang="zh" className={`${GeistSans.variable}`}>
+        <body>
+          <header>
+            <SignedOut>
+              <SignInButton>登录</SignInButton>
+            </SignedOut>
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+          </header>
+          <main>{children}</main>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
