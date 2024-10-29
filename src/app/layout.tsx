@@ -1,9 +1,5 @@
 import {
   ClerkProvider,
-  SignInButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
 } from "@clerk/nextjs";
 import { zhCN } from "@clerk/localizations";
 
@@ -11,6 +7,9 @@ import "@/styles/globals.css";
 
 import { GeistSans } from "geist/font/sans";
 import { type Metadata } from "next";
+
+import ThemeProvider from "@/components/ThemeProvider";
+import Header from "@/components/Header";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -23,17 +22,21 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <ClerkProvider localization={zhCN}>
-      <html lang="zh" className={`${GeistSans.variable}`}>
+      <html
+        lang="zh"
+        className={`${GeistSans.variable}`}
+        suppressHydrationWarning
+      >
         <body>
-          <header>
-            <SignedOut>
-              <SignInButton>登录</SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
-          </header>
-          <main>{children}</main>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header />
+            <div className="flex w-full flex-col items-center">{children}</div>
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>
