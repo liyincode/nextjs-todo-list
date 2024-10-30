@@ -10,6 +10,7 @@ import { type Metadata } from "next";
 
 import ThemeProvider from "@/components/ThemeProvider";
 import Header from "@/components/Header";
+import {Toaster} from "@components/ui/toaster";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -36,6 +37,7 @@ export default function RootLayout({
           >
             <Header />
             <div className="flex w-full flex-col items-center">{children}</div>
+            <Toaster />
           </ThemeProvider>
         </body>
       </html>

@@ -9,13 +9,15 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { currentUser } from "@clerk/nextjs/server";
 import CreateListModal from "@/components/CreateListModal";
+import {CheckLists} from "@components/CheckLists";
 
 async function Welcome() {
-  const user = await currentUser();
+  try {
+    const user = await currentUser();
 
-  if (!user) return null;
+    if (!user) return null;
 
-  return (
+    return (
       <Card className="w-full sm:col-span-2" x-chunk="dashboard-05-chunk-0">
         <CardHeader className="pb-3">
           <CardTitle className="text-lg">
@@ -29,7 +31,8 @@ async function Welcome() {
           <CreateListModal />
         </CardFooter>
       </Card>
-  );
+    );
+  } catch (e) {}
 }
 
 function WelcomeFallback() {
@@ -38,10 +41,13 @@ function WelcomeFallback() {
 
 export default function HomePage() {
   return (
-      <main className="flex w-full flex-col items-center px-4">
+    <main className="flex w-full flex-col items-center px-4">
+      <Suspense fallback={<WelcomeFallback />}>
+        <Welcome />
+      </Suspense>
         <Suspense fallback={<WelcomeFallback />}>
-          <Welcome />
+            <CheckLists />
         </Suspense>
-      </main>
+    </main>
   );
 }
